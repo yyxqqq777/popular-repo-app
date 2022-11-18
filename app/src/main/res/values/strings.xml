@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Popular Github Repo</string>
+    <string name="hello">Type a language to search for your interesting github repo.</string>
+    <string name="action_settings">Action</string>
+</resources>
