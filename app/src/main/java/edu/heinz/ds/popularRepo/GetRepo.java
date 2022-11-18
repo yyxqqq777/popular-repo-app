@@ -1,37 +1,20 @@
-package edu.heinz.ds.androidinterestingpicture;
+package edu.heinz.ds.popularRepo;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.os.Build;
 //import android.os.Build;
 //import android.support.annotation.RequiresApi;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Random;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import androidx.annotation.RequiresApi;
 
 /*
  * This class provides capabilities to search for an image on Flickr.com given a search term.  The method "search" is the entry to the class.
@@ -145,7 +128,7 @@ public class GetRepo {
 //            ArrayList<String> NameDate = new ArrayList<String>();
             language = URLEncoder.encode(language.toLowerCase(), "UTF-8");
             // search for repo
-            String URL = "https://cryptic-ravine-62995.herokuapp.com/language/"
+            String URL = "https://thawing-refuge-82904.herokuapp.com/language/"
                     + language;
             return fetch(URL);
         }

@@ -1,4 +1,4 @@
-package edu.heinz.ds.androidinterestingpicture;
+package edu.heinz.ds.popularRepo;
 
 import android.content.Context;
 
