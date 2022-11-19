@@ -133,7 +133,7 @@ public class GetRepo {
 //            ArrayList<String> NameDate = new ArrayList<String>();
             language = URLEncoder.encode(language.toLowerCase(), "UTF-8");
             // search for repo
-            String URL = "https://thawing-refuge-82904.herokuapp.com/language/"
+            String URL = "https://murmuring-peak-57218.herokuapp.com/language/"
                     + language;
             return fetch(URL);
         }
