@@ -1,12 +1,8 @@
 package edu.heinz.ds.popularRepo;
 
+import java.util.ArrayList;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,11 +10,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+
+// Author: Guojiang Zhao & Yunxuan Yu
+// AndrewID: guojianz & yunxuany
+// This android project is developed mainly based on the androidInterestingPicture from lab 8
 
 public class PopularRepo extends AppCompatActivity {
 
-    PopularRepo me = this;
+    PopularRepo pr = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,19 +47,22 @@ public class PopularRepo extends AppCompatActivity {
                 String searchLanguage = ((EditText)findViewById(R.id.searchLanguage)).getText().toString();
                 System.out.println("searchLanguage = " + searchLanguage);
                 GetRepo gp = new GetRepo();
-                gp.search(searchLanguage, me, ma); // Done asynchronously in another thread.  It calls ip.pictureReady() in this thread when complete.
+                // Done asynchronously in another thread.
+                // It calls pr.repoReady() in this thread when complete.
+                gp.search(searchLanguage, pr, ma);
             }
         });
     }
 
     /*
-     * This is called by the GetPicture object when the picture is ready.  This allows for passing back the Bitmap picture for updating the ImageView
+     * This is called by the GetRepo object when the picture is ready.
+     * This allows for passing back the repo info for updating the Listview
      */
-    public void repoReady(JSONArray repos) throws JSONException {
-        ListView resultView = (ListView)findViewById(R.id.listview);
-        TextView searchView = (EditText)findViewById(R.id.searchLanguage);
+    public void repoReady(JSONArray repos, String language) throws JSONException {
         TextView message = (TextView) findViewById(R.id.textView);
-        ArrayList<String> repoUrl = new ArrayList<>();
+        ListView resultView = (ListView)findViewById(R.id.listview);
+        ArrayList<String> repoInfo = new ArrayList<>();
+        TextView searchView = (EditText)findViewById(R.id.searchLanguage);
         if (repos.length() != 0) {
             for (int i = 0; i < 5; i++){
                 JSONObject json = repos.getJSONObject(i);
@@ -64,15 +71,23 @@ public class PopularRepo extends AppCompatActivity {
                         + "Desc: " + (String) json.get("description") + "\n"
                         + "Stars: " + json.getInt("stars") + "\n"
                         + "Url: " + (String) json.get("url") + "\n";
-                repoUrl.add(info);
+                repoInfo.add(info);
             }
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_1, repoUrl);
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,
+                    android.R.layout.simple_list_item_1, repoInfo);
+            message.setText("Here are top five popular github repo of " + searchView.getText());
             resultView.setAdapter(arrayAdapter);
-            message.setText("Here are the three most popular github repo of " + searchView.getText());
             resultView.setVisibility(View.VISIBLE);
-        } else {
-            message.setText("No matching repos of " + searchView.getText());
+        }
+        // handle error
+        else {
+            // empty input
+            if (searchView.getText().length() == 0) {
+                message.setText("Input cannot be empty");
+            } else {
+                // empty result
+                message.setText("No matching repos of " + searchView.getText());
+            }
             resultView.setAdapter(new ArrayAdapter<String>(this,
                     android.R.layout.simple_list_item_1, new ArrayList<>()));
             resultView.setVisibility(View.INVISIBLE);

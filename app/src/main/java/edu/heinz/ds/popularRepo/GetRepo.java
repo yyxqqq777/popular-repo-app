@@ -16,8 +16,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-/*
- * This class provides capabilities to search for an image on Flickr.com given a search term.  The method "search" is the entry to the class.
+/* Author: Guojiang Zhao & Yunxuan Yu
+ * AndrewID: guojianz & yunxuany
+ *
+ * This android project is mainly based on the androidInterestingPicture from lab 8
+ *
+ * This class provides capabilities to search for 5 most popular(based on stars) github repo given a search term.
+ * The method "search" is the entry to the class.
  * Network operations cannot be done from the UI thread, therefore this class makes use of inner class BackgroundTask that will do the network
  * operations in a separate worker thread.  However, any UI updates should be done in the UI thread so avoid any synchronization problems.
  * onPostExecution runs in the UI thread, and it calls the ImageView pictureReady method to do the update.
@@ -28,7 +33,7 @@ import java.net.URLEncoder;
  *
  */
 public class GetRepo {
-    PopularRepo ip = null;   // for callback
+    PopularRepo pr = null;   // for callback
     String searchLanguage = null;       // search Flickr for this word
     JSONArray repos = null;          // returned from Flickr
 
@@ -37,8 +42,8 @@ public class GetRepo {
     // String searchTerm: the thing to search for on flickr
     // Activity activity: the UI thread activity
     // InterestingPicture ip: the callback method's class; here, it will be ip.pictureReady( )
-    public void search(String searchLanguage, Activity activity, PopularRepo ip) {
-        this.ip = ip;
+    public void search(String searchLanguage, Activity activity, PopularRepo pr) {
+        this.pr = pr;
         this.searchLanguage = searchLanguage;
         new BackgroundTask(activity).execute();
     }
@@ -115,14 +120,14 @@ public class GetRepo {
         // Implement this method to suit your needs
         public void onPostExecute() {
             try {
-                ip.repoReady(repos);
+                pr.repoReady(repos, searchLanguage);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
 
         /*
-         * Search through heroku for the searchTerm argument, and return ArrayList String that can be put in an ListView
+         * Search from cloud api for the searchTerm argument
          */
         private JSONArray search(String language) throws UnsupportedEncodingException {
 //            ArrayList<String> NameDate = new ArrayList<String>();
@@ -133,7 +138,7 @@ public class GetRepo {
             return fetch(URL);
         }
 
-        // fetch album name and release date
+        // fetch repo info
         private JSONArray fetch(String urlString) {
             String response = "";
             JSONArray result = new JSONArray() ;

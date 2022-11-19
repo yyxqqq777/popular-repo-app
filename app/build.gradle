@@ -6,7 +6,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "edu.heinz.ds.androidinterestingpicture"
+        applicationId "edu.heinz.ds.popularRepo"
         minSdk 28
         targetSdk 31
         versionCode 1
